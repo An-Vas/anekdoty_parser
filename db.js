@@ -7,11 +7,13 @@ const mongoClient = new MongoClient(url);
 async function updateDb(jokes) {
     if (jokes.length !== 0){
         try {
+            console.log("[" +  new Date().toLocaleString() + `] Db: connecting to db`);
             await mongoClient.connect();
             const db = mongoClient.db("jokessdb");
             const collection = db.collection("jokes");
             const dropResult = await collection.drop();
             const insertManyResult = await db.collection('jokes').insertMany(jokes)
+            console.log("[" +  new Date().toLocaleString() + `] Db: ${jokes.length} jokes totally saved`);
 
         } catch(err) {
             console.log(err);

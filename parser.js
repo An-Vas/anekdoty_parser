@@ -18,9 +18,12 @@ async function calculateRes(link){
             }
 
             await axios.get(curLink).then(response => {
+
                 const dom = new jsdom.JSDOM(response.data);
                 const contentBlock = dom.window.document.querySelector('.content-block');
                 const itemlist = contentBlock.querySelector('.item-list');
+
+                console.log("[" +  new Date().toLocaleString() + `] Parser: ${curLink} read, ${itemlist.childNodes.length} jokes saved`);
 
                 itemlist.childNodes.forEach((item) => {
                     const id = item.getAttribute('id');
@@ -49,7 +52,7 @@ async function calculateRes(link){
 }
 
 async function parse(root, callback){
-
+    console.log("[" +  new Date().toLocaleString() + "] Parser: start");
     let categoryList = "";
     let categoryLinks = "";
 
@@ -70,6 +73,8 @@ async function parse(root, callback){
     }).catch((err) => {
         console.error('Error:', err);
     });
+
+
 }
 
 module.exports = { parse };
